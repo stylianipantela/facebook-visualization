@@ -1,3 +1,59 @@
+
+/**
+ *  Costum facebook login that requires user_likes and friends_likes
+ */
+
+function fbLogin() {
+    FB.login(function(response) {
+           // handle the response
+         }, {scope: 'user_likes, friends_likes'});
+}
+
+/**
+ *  User likes and friends info
+ */
+
+function fbUserInfo() {
+  console.log('Welcome!  Fetching your information.... ');
+  FB.api('/me', function(response) {
+    console.log('Good to see you, ' + response.name + '.');
+  });
+
+  FB.api("me/likes", function(res){
+    console.log(res);
+  });
+}
+
+/**
+ *  Costum facebook login that requires user_likes and friends_likes
+ *  limit: number of friends to get likes for
+ *  TODO: concatenate the data lists from the different pages into one data list and return that
+ *  iterate through res in the likes call and create the following object:
+ *  object{
+      friendid1: [likes] (this is a result of pagination)
+      friendid2: [likes]
+ *  }
+ */
+function fbFriendsLikes(limit) {
+  FB.api("me/friends",{
+    fields:'id',
+    limit:limit
+  },function(res){
+    // console.log(res);
+    var l=''
+    $.each(res.data,function(idx,val){
+       l=l+val.id+(idx<res.data.length-1?',':'')
+    })
+    FB.api("likes?ids="+l,function(res){
+        console.log(res);
+    })
+  })
+
+}
+
+
+
+
 window.fbAsyncInit = function() {
   FB.init({
     appId      : '296165317202599',
@@ -27,9 +83,7 @@ window.fbAsyncInit = function() {
       // result from direct interaction from people using the app (such as a mouse click)
       // (2) it is a bad experience to be continually prompted to login upon page load.
       // FB.login();
-      FB.login(function(response) {
-           // handle the response
-         }, {scope: 'user_likes'});
+      fbLogin();
 
     } else {
       // In this case, the person is not logged into Facebook, so we call the login() 
@@ -38,9 +92,7 @@ window.fbAsyncInit = function() {
       // dialog right after they log in to Facebook. 
       // The same caveats as above apply to the FB.login() call here.
       // FB.login();
-      FB.login(function(response) {
-         // handle the response
-       }, {scope: 'user_likes'});
+      fbLogin();
 
     }
   });
@@ -58,33 +110,8 @@ window.fbAsyncInit = function() {
   // Here we run a very simple test of the Graph API after login is successful. 
   // This testAPI() function is only called in those cases. 
   function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-      console.log('Good to see you, ' + response.name + '.');
-    });
-
-
-    // user's likes
-    FB.api("me/likes", function(res){
-      console.log(res);
-    });
-
-
-    // find the first 20 friend ids and all there likes
-    FB.api("me/friends",{
-      fields:'id',
-      limit:20
-    },function(res){
-      console.log(res);
-      var l=''
-      $.each(res.data,function(idx,val){
-         l=l+val.id+(idx<res.data.length-1?',':'')
-      })
-      FB.api("likes?ids="+l,function(res){
-          console.log(res);
-      })
-    })
-
-
-
+    fbUserInfo();    
+    fbFriendsLikes(20);
   }
+
+
