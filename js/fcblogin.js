@@ -13,17 +13,58 @@ function fbLogin() {
  *  User likes and friends info
  */
 
+
+var objectarray = [];
+var jsonSite = "";
+
+function json(jsonSite) {
+    if (jsonSite !== undefined) {
+        d3.json(jsonSite, function(error, d) {
+
+            (d.data).map(function(d) {
+              objectarray.push(d);
+            })
+            
+            jsonSite = d.paging.next;
+            
+            json(jsonSite);
+
+        });
+    }
+
+
+}
+
 function fbUserInfo() {
   console.log('Welcome!  Fetching your information.... ');
   FB.api('/me', function(response) {
     console.log('Good to see you, ' + response.name + '.');
   });
 
+
+
   FB.api("me/likes", function(res){
     console.log(res);
-  });
-}
 
+    // adds first page to the array
+    (res.data).map(function(d) {
+      objectarray.push(d);
+    })
+
+
+    jsonSite = res.paging.next;
+
+    json(jsonSite);
+
+  
+   
+    
+
+
+
+  });
+  console.log(objectarray);
+}
 /**
  *  Costum facebook login that requires user_likes and friends_likes
  *  limit: number of friends to get likes for
@@ -56,7 +97,7 @@ function fbFriendsLikes(limit) {
 
 window.fbAsyncInit = function() {
   FB.init({
-    appId      : '296165317202599',
+    appId      : '836888169659073',//'296165317202599',
     status     : true, // check login status
     cookie     : true, // enable cookies to allow the server to access the session
     xfbml      : true  // parse XFBML
