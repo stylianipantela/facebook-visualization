@@ -1,7 +1,11 @@
 
 /**
- *  Costum facebook login that requires user_likes and friends_likes
+ *  Custom facebook login that requires user_likes and friends_likes
  */
+function invisible(){
+   document.getElementById("fbpic").style.visibility = "hidden";
+}
+
 
 function fbLogin() {
     FB.login(function(response) {
@@ -16,10 +20,11 @@ function fbLogin() {
 function fbUserInfo() {
   console.log('Welcome!  Fetching your information.... ');
   FB.api('/me', function(response) {
-    console.log('Good to see you, ' + response.name + '.');
+    console.log('Good to see you, '+ response.name + '.');
   });
 
   FB.api("me/likes", function(res){
+    console.log('My likes');
     console.log(res);
   });
 }
@@ -45,6 +50,7 @@ function fbFriendsLikes(limit) {
        l=l+val.id+(idx<res.data.length-1?',':'')
     })
     FB.api("likes?ids="+l,function(res){
+        console.log("friend's likes");
         console.log(res);
     })
   })
@@ -56,7 +62,7 @@ function fbFriendsLikes(limit) {
 
 window.fbAsyncInit = function() {
   FB.init({
-    appId      : '296165317202599',
+    appId      : '603947393029878',
     status     : true, // check login status
     cookie     : true, // enable cookies to allow the server to access the session
     xfbml      : true  // parse XFBML
@@ -67,7 +73,7 @@ window.fbAsyncInit = function() {
   // whenever someone who was previously logged out tries to log in again, the correct case below 
   // will be handled. 
   FB.Event.subscribe('auth.authResponseChange', function(response) {
-    console.log("Event substricbe is fired");
+    console.log("Event subscribe is fired");
     // Here we specify what we do with the response anytime this event occurs. 
     if (response.status === 'connected') {
       // The response object is returned with a status field that lets the app know the current
@@ -113,5 +119,6 @@ window.fbAsyncInit = function() {
     fbUserInfo();    
     fbFriendsLikes(20);
   }
+
 
 
