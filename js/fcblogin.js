@@ -29,6 +29,7 @@ function fbUserInfo() {
   });
 }
 
+
 /**
  *  Costum facebook login that requires user_likes and friends_likes
  *  limit: number of friends to get likes for
@@ -58,8 +59,6 @@ function fbFriendsLikes(limit) {
 }
 
 
-
-
 window.fbAsyncInit = function() {
   FB.init({
     appId      : '603947393029878',
@@ -79,7 +78,8 @@ window.fbAsyncInit = function() {
       // The response object is returned with a status field that lets the app know the current
       // login status of the person. In this case, we're handling the situation where they 
       // have logged in to the app.
-      testAPI();
+      collapsibleTree();
+
     } else if (response.status === 'not_authorized') {
       // In this case, the person is logged into Facebook, but not into the app, so we call
       // FB.login() to prompt them to do so. 
