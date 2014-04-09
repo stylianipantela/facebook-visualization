@@ -17,18 +17,57 @@ function fbLogin() {
  *  User likes and friends info
  */
 
+
+var objectarray = [];
+var jsonSite = "";
+
+function json(jsonSite) {
+    if (jsonSite !== undefined) {
+        d3.json(jsonSite, function(error, d) {
+
+            (d.data).map(function(d) {
+              objectarray.push(d);
+            })
+            
+            jsonSite = d.paging.next;
+            
+            json(jsonSite);
+
+        });
+    }
+}
+
 function fbUserInfo() {
   console.log('Welcome!  Fetching your information.... ');
   FB.api('/me', function(response) {
     console.log('Good to see you, '+ response.name + '.');
   });
 
+
+
   FB.api("me/likes", function(res){
     console.log('My likes');
     console.log(res);
-  });
-}
 
+    // adds first page to the array
+    (res.data).map(function(d) {
+      objectarray.push(d);
+    })
+
+
+    jsonSite = res.paging.next;
+
+    json(jsonSite);
+
+  
+   
+    
+
+
+
+  });
+  console.log(objectarray);
+}
 
 /**
  *  Costum facebook login that requires user_likes and friends_likes
@@ -58,10 +97,9 @@ function fbFriendsLikes(limit) {
 
 }
 
-
 window.fbAsyncInit = function() {
   FB.init({
-    appId      : '603947393029878',
+    appId      : id,
     status     : true, // check login status
     cookie     : true, // enable cookies to allow the server to access the session
     xfbml      : true  // parse XFBML
@@ -78,7 +116,12 @@ window.fbAsyncInit = function() {
       // The response object is returned with a status field that lets the app know the current
       // login status of the person. In this case, we're handling the situation where they 
       // have logged in to the app.
-      collapsibleTree();
+
+      testAPI();
+      if (typeof collapsibleTreeVar !== 'undefined') {
+        collapsibleTree();
+      }
+
 
     } else if (response.status === 'not_authorized') {
       // In this case, the person is logged into Facebook, but not into the app, so we call
@@ -119,6 +162,4 @@ window.fbAsyncInit = function() {
     fbUserInfo();    
     fbFriendsLikes(20);
   }
-
-
 
