@@ -22,7 +22,7 @@ function collapsibleTree(res) {
   FB.api('/me', function(user) {
       FB.api("me/friends",{
       fields:'id',
-      limit:40
+      limit:60
     },function(friends){
       var l=''
       friends.data.forEach(function(val,idx){
