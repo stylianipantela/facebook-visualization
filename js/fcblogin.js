@@ -119,6 +119,9 @@ window.fbAsyncInit = function() {
       else if (typeof bubbleVar !== 'undefined') {
         bubble();
       }
+      else if (typeof generalBubbleVar !== 'undefined') {
+        generalBubbles();
+      }
 
 
     } else if (response.status === 'not_authorized') {

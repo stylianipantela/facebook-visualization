@@ -27,3 +27,6 @@ After thinking about our data and the principles of the class we realized it wou
 
 <img src="img/general.png" width="400" style="display: block; margin-left:auto; margin-right:auto;"/>
 
+And the black version which looks better:
+<img src="img/general_black.png" width="400" style="display: block; margin-left:auto; margin-right:auto;"/>
+
