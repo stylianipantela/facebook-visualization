@@ -37,27 +37,54 @@ function addToLikes(nextPage) {
     else {
       // console.log(likesarray);
       // pre-process data by category
+
+      var numKeys = 0;
       var categoryMap = {}
       likesarray.forEach(function(val, idx) {
         if (!(val.category in categoryMap)) {
           categoryMap[val.category] = [];
+          numKeys++;
         }
-        
+
         categoryMap[val.category].push({name: val.name});
       
       });
 
-      flare = {}
-      flare.name = "flare";
-      flare.children = d3.keys(categoryMap).map(function(d) {
-        return {name:d, size: 6725, 
-          children: categoryMap[d].map(function(o) {
-            return {name:o.name, size: 4000};
-          })
-        };
+      categoryMap["Other"] = [];
+
+      function rest() {
+        numKeys--;
+        if (numKeys == 0) {
+          flare = {}
+          flare.name = "flare";
+
+          // filter out the Categories with just one element
+          categoryMapT = categoryMap
+          categoryMap = {}
+          d3.keys(categoryMapT).forEach(function(d) {
+            if (categoryMapT[d].length != 1 || d == "Other")
+              categoryMap[d] = categoryMapT[d];
+          });
+
+          flare.children = d3.keys(categoryMap).map(function(d) {
+            return {name:d, size: 6725, 
+              children: categoryMap[d].map(function(o) {
+                return {name:o.name, size: 4000};
+              })
+            };
+          });
+          console.log(flare);
+          finishBubble(flare);
+        }
+      }
+
+      d3.keys(categoryMap).forEach(function(d) {
+        if (categoryMap[d].length == 1 && d != "Other") {
+          categoryMap["Other"].push(categoryMap[d][0]);
+        }
+        rest();
       });
-      console.log(flare);
-      finishBubble(flare);
+      
     }
 }
 
