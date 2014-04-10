@@ -130,7 +130,7 @@ function finishBubble (root) {
 
         var node = svg.selectAll("circle,text");
 
-        d3.select("body")
+        d3.select("#detailVis")
             .style("background", color(-1))
             .on("click", function() { zoom(root); });
 
