@@ -10,12 +10,27 @@ var pack = d3.layout.pack()
     .size([diameter - 20, diameter - 20])
     .value(function(d) { return d.size; })
 
-var svg = d3.select("body").append("svg")
+var margin = {
+    top: 50,
+    right: 50,
+    bottom: 50,
+    left: 50
+};
+
+var width = 775 - margin.left - margin.right;
+var height = 500 - margin.bottom - margin.top;
+
+var canvas = d3.select("#vis").append("svg").attr({
+    width: width + margin.left + margin.right,
+    height: height + margin.top + margin.bottom
+    })
+
+
+var svg = d3.select("#detailVis").append("svg")
     .attr("width", diameter)
     .attr("height", diameter)
   .append("g")
     .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
-
 
 /**
  *  User likes and friends info

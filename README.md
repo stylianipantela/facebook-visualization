@@ -20,3 +20,10 @@ The visualization did not look particularly appealing aesthetically and at the s
 Originally we were getting many white circles isolated from the rest of the graph and not belonging to a greater category circle. These circles belonged to categories with only one element. To make the visualization more consise we grouped them together into a category called Other and filtered out the Categories with just one element. The result can be seen in the next figure.
 
 <img src="img/bubble_filtered.png" width="400" style="display: block; margin-left:auto; margin-right:auto;"/>
+
+###Putting it together and making a story
+
+After thinking about our data and the principles of the class we realized it would be awesome to actually be able ot tell a story of some sort. That is why we chose to switch to a general and a details view. We have marked both in our new design and integrated the bubbles view in the details view. The general view will be coming soon and will show all our friends. The more likes a friend has the bigger their bubble. Then once we click on a friend we see the details view. You can see our current views in the Figure below.
+
+<img src="img/general.png" width="400" style="display: block; margin-left:auto; margin-right:auto;"/>
+

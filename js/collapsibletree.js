@@ -33,12 +33,6 @@ function collapsibleTree(res) {
       FB.api("likes?ids="+l,function(res){
           console.log(res);
 
-
-          // convert res to data structure for visualization of the form
-          // name
-          // children = [
-
-          //]
           flare = {}
           flare.name = user.name;
           flare.children = d3.keys(res).map(function(d) {

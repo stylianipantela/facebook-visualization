@@ -2,34 +2,13 @@
 
 <!DOCTYPE html>
 <meta charset="utf-8">
-<style>
+<head>
+	<title>Fcb Viz</title>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
 
-.node {
-  cursor: pointer;
-}
 
-.node:hover {
-  stroke: #000;
-  stroke-width: 1.5px;
-}
 
-.node--leaf {
-  fill: white;
-}
-
-.label {
-  font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
-  text-anchor: middle;
-  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
-}
-
-.label,
-.node--root,
-.node--leaf {
-  pointer-events: none;
-}
-
-</style>
 <body>
 
 <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -41,7 +20,23 @@
 var bubbleVar = 1;
 </script>
 
+
+<img id="fblogin-button" src="img/active_200.png" onClick='fbLogin()'/>
+
+<h1 >Facebook Network Preferences Visualization</h1>
+<table>
+    <tr>
+        <td align="center"> <h3>General Overview</h3> <div id="vis"></div></td>
+        <td align="center"> <h3>Details View</h3> <div id="detailVis"></div></td>
+    </tr>
+</table>
+
+
+<footer>
+  <p>Created by Nelson Yanes, Paul Harris & Stella Pantela for CS171.</p>
+</footer> 
+
+
 <script src="js/fcblogin.js"></script>
 <script src="js/bubble.js"></script>
 
-<img src="img/active_200.png" onClick='fbLogin()'/>

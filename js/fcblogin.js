@@ -112,6 +112,7 @@ window.fbAsyncInit = function() {
       // have logged in to the app.
 
       // testAPI();
+      $( "#fblogin-button" ).hide();
       if (typeof collapsibleTreeVar !== 'undefined') {
         collapsibleTree();
       }
