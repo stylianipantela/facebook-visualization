@@ -16,3 +16,7 @@ The visualization did not look particularly appealing aesthetically and at the s
 
 <img src="img/bubble_general.png" width="400" style="display: block; margin-left:auto; margin-right:auto;"/> <br>
 <img src="img/bubble_details.png" width="400" style="display: block; margin-left:auto; margin-right:auto;"/>
+
+Originally we were getting many white circles isolated from the rest of the graph and not belonging to a greater category circle. These circles belonged to categories with only one element. To make the visualization more consise we grouped them together into a category called Other and filtered out the Categories with just one element. The result can be seen in the next figure.
+
+<img src="img/bubble_filtered.png" width="400" style="display: block; margin-left:auto; margin-right:auto;"/>
