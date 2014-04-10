@@ -1,0 +1,47 @@
+<!-- Inspired by http://bl.ocks.org/mbostock/7607535 -->
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.node {
+  cursor: pointer;
+}
+
+.node:hover {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.node--leaf {
+  fill: white;
+}
+
+.label {
+  font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-anchor: middle;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+}
+
+.label,
+.node--root,
+.node--leaf {
+  pointer-events: none;
+}
+
+</style>
+<body>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<script src="js/constants.js"></script>
+
+<script type="text/javascript">
+var bubbleVar = 1;
+</script>
+
+<script src="js/fcblogin.js"></script>
+<script src="js/bubble.js"></script>
+
+<img src="img/active_200.png" onClick='fbLogin()'/>

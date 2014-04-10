@@ -20,9 +20,10 @@ var svg = d3.select("body").append("svg")
 
 function collapsibleTree(res) {
   FB.api('/me', function(user) {
+    console.log(user);
       FB.api("me/friends",{
       fields:'id',
-      limit:60
+      limit:20
     },function(friends){
       var l=''
       friends.data.forEach(function(val,idx){
@@ -31,15 +32,24 @@ function collapsibleTree(res) {
 
       FB.api("likes?ids="+l,function(res){
           console.log(res);
+
+
+          // convert res to data structure for visualization of the form
+          // name
+          // children = [
+
+          //]
           flare = {}
           flare.name = user.name;
           flare.children = d3.keys(res).map(function(d) {
             return {name:d, size: 6725, 
               children: res[d].data.map(function(o) {
-                return {name:o.name, sizE: 4000};
+                return {name:o.name, size: 4000};
               })
             };
           });
+
+          // friend names
           friends.data.forEach(function(val, idx) {
             FB.api('/' + val.id, function(friend) {
               flare.children[idx].name = friend.name;
