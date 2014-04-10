@@ -14,5 +14,5 @@ The visualization did not look particularly appealing aesthetically and at the s
 
 ###Bubbles, bubbles everywhere
 
-<img src="img/bubble_general.png" width="800" style="display: block; margin-left:auto; margin-right:auto;"/>
-<img src="img/bubble_details.png" width="800" style="display: block; margin-left:auto; margin-right:auto;"/>
+<img src="img/bubble_general.png" width="400" style="display: block; margin-left:auto; margin-right:auto;"/> <br>
+<img src="img/bubble_details.png" width="400" style="display: block; margin-left:auto; margin-right:auto;"/>
