@@ -59,12 +59,6 @@ function fbUserInfo() {
 
     json(jsonSite);
 
-  
-   
-    
-
-
-
   });
   console.log(objectarray);
 }
@@ -117,9 +111,17 @@ window.fbAsyncInit = function() {
       // login status of the person. In this case, we're handling the situation where they 
       // have logged in to the app.
 
-      testAPI();
+      // testAPI();
+      $( "#fblogin-button" ).hide();
       if (typeof collapsibleTreeVar !== 'undefined') {
         collapsibleTree();
+      }
+      else if (typeof bubbleVar !== 'undefined') {
+        bubble();
+        generalBubbles();
+      }
+      else if (typeof generalBubbleVar !== 'undefined') {
+        generalBubbles();
       }
 
 
@@ -159,7 +161,7 @@ window.fbAsyncInit = function() {
   // Here we run a very simple test of the Graph API after login is successful. 
   // This testAPI() function is only called in those cases. 
   function testAPI() {
-    fbUserInfo();    
-    fbFriendsLikes(20);
+    // fbUserInfo();    
+    // fbFriendsLikes(20);
   }
 
