@@ -42,7 +42,9 @@ function addToLikes(nextPage) {
         if (!(val.category in categoryMap)) {
           categoryMap[val.category] = [];
         }
+        
         categoryMap[val.category].push({name: val.name});
+      
       });
 
       flare = {}
@@ -56,7 +58,6 @@ function addToLikes(nextPage) {
       });
       console.log(flare);
       finishBubble(flare);
-
     }
 }
 
@@ -80,15 +81,9 @@ function finishBubble (root) {
             .style("display", function(d) { return d.parent === root ? null : "none"; })
             .text(function(d) { 
               if ((typeof d.children !== 'undefined' && d.children.length > 1) || d.parent.name != "flare")          
-                return (d.name.substring(0, 15) + "...");
-                // return d.name; 
-              else {
-                // return d.children[0];
-                // console.log(d);
+                return d.name.substring(0, 15);
+              else 
                 return "";
-              }
-
-
             });
 
         var node = svg.selectAll("circle,text");
