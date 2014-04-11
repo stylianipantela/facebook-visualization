@@ -184,6 +184,8 @@ var bubble1 = d3.layout.pack()
     .padding(1.5);
 
 var svg1 = d3.select("#vis").append("svg")
+            .style("background", color(-1))
+
      .attr("width", diameter1)
     .attr("height", diameter1)
     .attr("class", "bubble");
@@ -238,9 +240,9 @@ function generalBubbles() {
 
               // add colors for the two genders
               if (d.gender == "female")
-                return d3.rgb(255, 0, 0);
+                return d3.rgb(201, 0, 122);
               else
-                return d3.rgb(0, 0, 255);
+                return d3.rgb(38, 24, 177);
             });
 
         node.append("text")
