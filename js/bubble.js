@@ -56,7 +56,7 @@ function addToLikes(nextPage) {
         });
     }
     else {
-      console.log(likesarray);
+      // console.log(likesarray);
       // pre-process data by category
 
       var numKeys = 0;
@@ -109,6 +109,7 @@ function addToLikes(nextPage) {
     }
 }
 
+// this is just for the details view
 function finishBubble (root) {
         var focus = root,
             nodes = pack.nodes(root),
@@ -167,8 +168,10 @@ function finishBubble (root) {
       d3.select(self.frameElement).style("height", diameter + "px");
 }
 
-function bubble () {
-
+//TODO: pass id into bubble and instead of calling FB.api("me/likes") call FB.api("" + id + "/like");
+// and in order make the vis less messy you might have to remove the details svg
+function bubble() {
+  console.log("bubble is called");
     // get the friend's likes on click, right now just gets user's likes
     FB.api("me/likes", function(res){
       (res.data).map(function(d) {
@@ -197,7 +200,11 @@ var svg1 = d3.select("#vis").append("svg")
     .attr("class", "bubble");
 
 
+// Responsible for the general view
 function generalBubbles() {
+  
+  // gets all your friends
+
   FB.api('/me', function(user) {
       FB.api("me/friends",{
       fields:'id',
@@ -206,8 +213,9 @@ function generalBubbles() {
       root = {}
       root.name = user.name;
       root.children = []
+      // d.id is the friend's id and d represents a friend
       friends.data.forEach(function (d, idx) {
-        root.children.push({name: "Stella", size: 1400, id: d.id});
+        root.children.push({name: "Dummy name", size: 1400, id: d.id});
       });
 
       // friend names and genders
@@ -249,7 +257,11 @@ function generalBubbles() {
                 return d3.rgb(201, 0, 122);
               else
                 return d3.rgb(38, 24, 177);
-            });
+            })
+ //           .onmouseclick();
+
+            // TODO: onclick or onmouseon or onmouseout call bubble() to update (write this function
+            // like pset4, also d has d.gender, d.id)
 
         node.append("text")
             .attr("dy", ".3em")
@@ -268,7 +280,7 @@ function classes(root) {
   var classes = [];
 
   function recurse(name, node) {
-    console.log(name, node);
+    // console.log(name, node);
     if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
     else classes.push({packageName: name, className: node.name, value: node.size, gender: node.gender, id: node.id});
   }
