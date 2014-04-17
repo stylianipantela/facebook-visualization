@@ -42,15 +42,21 @@ function addToLikes(nextPage) {
   // console.log(nextPage);
     if (typeof nextPage !== 'undefined') {
         d3.json(nextPage, function(error, d) {
+          console.log(d);
             (d.data).map(function(d) {
               likesarray.push(d);
             });
             
-            addToLikes(d.paging.next);
+            if (typeof d.paging !== 'undefined') {
+              addToLikes(d.paging.next);
+            }
+            else {
+              addToLikes(d.paging);
+            }
         });
     }
     else {
-      // console.log(likesarray);
+      console.log(likesarray);
       // pre-process data by category
 
       var numKeys = 0;
