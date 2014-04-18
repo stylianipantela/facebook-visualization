@@ -23,13 +23,9 @@ Originally we were getting many white circles isolated from the rest of the grap
 
 ###Putting it together and making a story
 
-After thinking about our data and the principles of the class we realized it would be awesome to actually be able ot tell a story of some sort. That is why we chose to switch to a general and a details view. We have marked both in our new design and integrated the bubbles view in the details view. The general view will be coming soon and will show all our friends. The more likes a friend has the bigger their bubble. Then once we click on a friend we see the details view. You can see our current views in the Figure below.
+After thinking about our data and the principles of the class we realized it would be awesome to actually be able ot tell a story of some sort. That is why we chose to switch to a general and a details view. We have marked both in our new design and integrated the bubbles view in the details view. The general view will be coming soon and will show all our friends. The more likes a friend has the bigger their bubble. Then once we click on a friend we see the details view. 
 
-<img src="img/general.png" width="400" style="display: block; margin-left:auto; margin-right:auto;"/>
+For our design we built on the Bubble Chart (http://bl.ocks.org/mbostock/4063269) and Zoomable Circle Packing(http://bl.ocks.org/mbostock/7607535). You can see our current views in the Figure below.
 
-And the black version which looks better:
-<img src="img/general_black.png" width="400" style="display: block; margin-left:auto; margin-right:auto;"/>
-
-And the two views combined:
 <img src="img/twoviews.png" width="400" style="display: block; margin-left:auto; margin-right:auto;"/>
 
