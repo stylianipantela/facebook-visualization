@@ -38,6 +38,7 @@ var svg = d3.select("#detailVis").append("svg")
 
 var likesarray = [];
 
+
 function addToLikes(nextPage) {
   // console.log(nextPage);
     if (typeof nextPage !== 'undefined') {
@@ -67,7 +68,7 @@ function addToLikes(nextPage) {
           numKeys++;
         }
 
-        categoryMap[val.category].push({name: val.name});
+        categoryMap[val.category].push({name: val.name, id: val.id});
       
       });
 
@@ -90,11 +91,11 @@ function addToLikes(nextPage) {
           flare.children = d3.keys(categoryMap).map(function(d) {
             return {name:d, size: 6725, 
               children: categoryMap[d].map(function(o) {
-                return {name:o.name, size: 4000};
+                return {name:o.name, size: 4000, id: o.id};
               })
             };
           });
-          console.log(flare);
+          // console.log(flare);
           finishBubble(flare);
         }
       }
@@ -109,6 +110,8 @@ function addToLikes(nextPage) {
     }
 }
 
+
+
 // this is just for the details view
 function finishBubble (root) {
         var focus = root,
@@ -119,7 +122,18 @@ function finishBubble (root) {
             .data(nodes)
           .enter().append("circle")
             .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
-            .style("fill", function(d) { return d.children ? color(d.depth) : null; })
+            .style("fill", function(d) { 
+
+              // TODO: check if d.id exists in pageIDs give it d3.rgb(201, 0, 122) instead of color(d.depth)
+              console.log(d, "fill");
+              // if (d.id exists in pageIDS)
+              // return d3.rgb(201, 0, 122)
+              // else
+              // return d.children ? color(d.depth) : null; 
+              return d.children ? color(d.depth) : null; 
+
+
+            })
             .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
 
         var text = svg.selectAll("text")
@@ -172,14 +186,25 @@ function finishBubble (root) {
 //TODO: pass id into bubble and instead of calling FB.api("me/likes") call FB.api("" + id + "/like");
 // and in order make the vis less messy you might have to remove the details svg
 function bubble(id) {
-  svg.style("visibility", "visible");
+  // console.log(userPageIDsDone);
+  //svg.style("visibility", "visible");
   console.log("bubble is called");
     // get the friend's likes on click, right now just gets user's likes
-    FB.api(""+id+"/likes", function(res){
-      (res.data).map(function(d) {
-        likesarray.push(d);
-      })
-      addToLikes(res.paging.next);
+    FB.api(id+"/likes", function(res){
+      if (typeof res.data !== 'undefined'){
+        console.log(res.data, "resdata");
+        console.log(res, "resdata2");
+        res.data.map(function(d) {
+          likesarray.push(d);
+        })
+      }
+      console.log(res);
+      if (typeof res.paging !== 'undefined') {
+        addToLikes(res.paging.next);
+      }
+      else {
+        addToLikes(res.paging);
+      }
     });   
 }
 
@@ -201,20 +226,80 @@ var svg1 = d3.select("#vis").append("svg")
     .attr("height", diameter1)
     .attr("class", "bubble");
 
+var clearAndUpdate = function(data) {
+  
+  d3.select("#detailVis").select("svg").remove();             
+  svg = d3.select("#detailVis").append("svg")
+    .attr("width", diameter)
+    .attr("height", diameter)
+    .append("g")
+    .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+  
+  bubble(data);
+
+}
+
+
+
+
+var pageIDs = []
+var userPageIDsDone = 0;
+var jSite = ""
+
+function json2(jsonSite) {
+    if (jsonSite !== undefined) {
+        d3.json(jsonSite, function(error, d) {
+
+            (d.data).map(function(d) {
+              pageIDs.push(d.id);
+            })
+            
+            jSite = d.paging.next;
+            
+            json2(jSite);
+
+        })
+    }
+// console.log(pageIDs);
+userPageIDsDone = 1;
+}
+
+
+function collectNames(data) {
+  (data.data).map(function (d) {
+    pageIDs.push(d.id);
+  })
+
+  // TODO: check for data.paging undefined
+  jSite = data.paging.next;
+
+  json2(jSite);
+
+}
+
 
 // Responsible for the general view
-// todo: friends
+
 function generalBubbles() {
+
   
   // gets all your friends
 
   FB.api('/me', function(user) {
+
+
+
+      FB.api("me/likes", function (d) {
+        collectNames(d); 
+
+      })
+       // console.log(pageIDs);
+
+
       FB.api("me/friends",{
       fields:'id',
       limit:40
     },function(friends){
-      // TODO: filter out the stupid ones
-
       // putting them in structure
       root = {}
       root.name = user.name;
@@ -242,7 +327,6 @@ function generalBubbles() {
         restBubbles();
       }
 
-      //TODO: different colors for nodes
       function restBubbles () {
         var node = svg1.selectAll(".node")
         .data(bubble1.nodes(classes(root))
@@ -266,23 +350,9 @@ function generalBubbles() {
                 return d3.rgb(38, 24, 177);
             })
             .on("click", function(d) { 
-              // svg.selectAll("circle,text").style("visibility", "hidden");
-              // svg.selectAll("circle").style("visibility", "hidden");
-              // svg.selectAll("text").style("visibility", "hidden");
-              svg.remove();
-              
-              svg = d3.select("#detailVis").append("svg")
-                .attr("width", diameter)
-                .attr("height", diameter)
-                .append("g")
-                .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+              clearAndUpdate(d.id);
 
-
-              //svg.style("visibility", "hidden");
-              bubble(d.id) })
-
-            // TODO: onclick or onmouseon or onmouseout call bubble() to update (write this function
-            // like pset4, also d has d.gender, d.id)
+            })
 
         node.append("text")
             .attr("dy", ".3em")
@@ -294,7 +364,6 @@ function generalBubbles() {
   });
 
 }
-
 
 // Returns a flattened hierarchy containing all leaf nodes under the root.
 function classes(root) {
@@ -311,6 +380,5 @@ function classes(root) {
 }
 
 d3.select(self.frameElement).style("height", diameter1 + "px");
-
 
 
