@@ -203,6 +203,7 @@ var svg1 = d3.select("#vis").append("svg")
 
 
 // Responsible for the general view
+// todo: friends
 function generalBubbles() {
   
   // gets all your friends
@@ -212,6 +213,9 @@ function generalBubbles() {
       fields:'id',
       limit:40
     },function(friends){
+      // TODO: filter out the stupid ones
+
+      // putting them in structure
       root = {}
       root.name = user.name;
       root.children = []
@@ -238,7 +242,7 @@ function generalBubbles() {
         restBubbles();
       }
 
-
+      //TODO: different colors for nodes
       function restBubbles () {
         var node = svg1.selectAll(".node")
         .data(bubble1.nodes(classes(root))

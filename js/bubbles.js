@@ -76,11 +76,6 @@ FB.api('/me', function(user) {
 
 
 
-
-
-
-
-
 function update(source){
  
   var node = svg.selectAll(".node")
