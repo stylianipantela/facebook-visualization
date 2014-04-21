@@ -168,12 +168,14 @@ function finishBubble (root) {
       d3.select(self.frameElement).style("height", diameter + "px");
 }
 
+
 //TODO: pass id into bubble and instead of calling FB.api("me/likes") call FB.api("" + id + "/like");
 // and in order make the vis less messy you might have to remove the details svg
-function bubble() {
+function bubble(id) {
+  svg.style("visibility", "visible");
   console.log("bubble is called");
     // get the friend's likes on click, right now just gets user's likes
-    FB.api("me/likes", function(res){
+    FB.api(""+id+"/likes", function(res){
       (res.data).map(function(d) {
         likesarray.push(d);
       })
@@ -251,6 +253,7 @@ function generalBubbles() {
         node.append("circle")
             .attr("r", function(d) { return d.r; })
             .style("fill", function(d) {
+              console.log(d);
 
               // add colors for the two genders
               if (d.gender == "female")
@@ -258,7 +261,21 @@ function generalBubbles() {
               else
                 return d3.rgb(38, 24, 177);
             })
- //           .onmouseclick();
+            .on("click", function(d) { 
+              // svg.selectAll("circle,text").style("visibility", "hidden");
+              // svg.selectAll("circle").style("visibility", "hidden");
+              // svg.selectAll("text").style("visibility", "hidden");
+              svg.remove();
+              
+              svg = d3.select("#detailVis").append("svg")
+                .attr("width", diameter)
+                .attr("height", diameter)
+                .append("g")
+                .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+
+
+              //svg.style("visibility", "hidden");
+              bubble(d.id) })
 
             // TODO: onclick or onmouseon or onmouseout call bubble() to update (write this function
             // like pset4, also d has d.gender, d.id)
