@@ -109,6 +109,8 @@ function addToLikes(nextPage) {
     }
 }
 
+
+
 // this is just for the details view
 function finishBubble (root) {
         var focus = root,
@@ -172,14 +174,20 @@ function finishBubble (root) {
 //TODO: pass id into bubble and instead of calling FB.api("me/likes") call FB.api("" + id + "/like");
 // and in order make the vis less messy you might have to remove the details svg
 function bubble(id) {
-  svg.style("visibility", "visible");
+  //svg.style("visibility", "visible");
   console.log("bubble is called");
     // get the friend's likes on click, right now just gets user's likes
-    FB.api(""+id+"/likes", function(res){
+    FB.api(id+"/likes", function(res){
+      console.log(1, res);
       (res.data).map(function(d) {
         likesarray.push(d);
       })
-      addToLikes(res.paging.next);
+      if (typeof res.paging !== 'undefined') {
+        addToLikes(res.paging.next);
+      }
+      else {
+        addToLikes(res.paging);
+      }
     });   
 }
 
@@ -200,6 +208,20 @@ var svg1 = d3.select("#vis").append("svg")
      .attr("width", diameter1)
     .attr("height", diameter1)
     .attr("class", "bubble");
+
+var clearAndUpdate = function(data) {
+  
+  d3.select("#detailVis").select("svg").remove();             
+  svg = d3.select("#detailVis").append("svg")
+    .attr("width", diameter)
+    .attr("height", diameter)
+    .append("g")
+    .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+  
+  bubble(data);
+
+}
+
 
 
 // Responsible for the general view
@@ -269,17 +291,11 @@ function generalBubbles() {
               // svg.selectAll("circle,text").style("visibility", "hidden");
               // svg.selectAll("circle").style("visibility", "hidden");
               // svg.selectAll("text").style("visibility", "hidden");
-              svg.remove();
               
-              svg = d3.select("#detailVis").append("svg")
-                .attr("width", diameter)
-                .attr("height", diameter)
-                .append("g")
-                .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
-
-
               //svg.style("visibility", "hidden");
-              bubble(d.id) })
+              clearAndUpdate(d.id);
+
+            })
 
             // TODO: onclick or onmouseon or onmouseout call bubble() to update (write this function
             // like pset4, also d has d.gender, d.id)
