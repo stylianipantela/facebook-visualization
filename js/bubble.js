@@ -127,27 +127,12 @@ function finishBubble (root) {
               // TODO: check if d.id exists in pageIDs give it d3.rgb(201, 0, 122) instead of color(d.depth)
               pageIDs.map(function (id) {
                 if (d.id == id)
-                {
                   present = true;
-                  //console.log(present);
-                }
-                // else
-                //   present = false;
-                  //console.log(present);
-
               })
-              //console.log(pageIDs);
-              console.log(present);
               if (present == true)
-                return d3.rgb(201, 0, 122)
+                return d3.rgb(201, 0, 122);
               else 
-              // if (d.id exists in pageIDS)
-              // return d3.rgb(201, 0, 122)
-              // else
-              // return d.children ? color(d.depth) : null; 
-              return d.children ? color(d.depth) : null; 
-
-
+                return d.children ? color(d.depth) : null; 
             })
             .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
 
