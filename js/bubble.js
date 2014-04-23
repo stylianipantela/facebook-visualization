@@ -186,7 +186,7 @@ function finishBubble (root) {
 //TODO: pass id into bubble and instead of calling FB.api("me/likes") call FB.api("" + id + "/like");
 // and in order make the vis less messy you might have to remove the details svg
 function bubble(id) {
-  // console.log(userPageIDsDone);
+
   //svg.style("visibility", "visible");
   console.log("bubble is called");
     // get the friend's likes on click, right now just gets user's likes
@@ -198,7 +198,7 @@ function bubble(id) {
           likesarray.push(d);
         })
       }
-      console.log(res);
+     
       if (typeof res.paging !== 'undefined') {
         addToLikes(res.paging.next);
       }
@@ -352,7 +352,7 @@ function generalBubbles() {
             .on("click", function(d) { 
               clearAndUpdate(d.id);
 
-            })
+            });
 
         node.append("text")
             .attr("dy", ".3em")
