@@ -206,6 +206,7 @@ function bubble(id) {
         addToLikes(res.paging);
       }
     });   
+  likesarray = [];
 }
 
 
@@ -350,10 +351,19 @@ function generalBubbles() {
                 return d3.rgb(38, 24, 177);
             })
             .on("click", function(d) { 
+
               clearAndUpdate(d.id);
 
             })
             .on("mouseover", function(d) {
+
+
+
+
+
+
+
+              console.log(likesarray);
               console.log(d);
               d3.select(this).style("fill", "pink");
             })
