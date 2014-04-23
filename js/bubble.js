@@ -37,7 +37,7 @@ var svg = d3.select("#detailVis").append("svg")
  */
 
 var likesarray = [];
-
+var present = false;
 
 function addToLikes(nextPage) {
   // console.log(nextPage);
@@ -123,9 +123,24 @@ function finishBubble (root) {
           .enter().append("circle")
             .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
             .style("fill", function(d) { 
-
+              var present = false;
               // TODO: check if d.id exists in pageIDs give it d3.rgb(201, 0, 122) instead of color(d.depth)
-              console.log(d, "fill");
+              pageIDs.map(function (id) {
+                if (d.id == id)
+                {
+                  present = true;
+                  //console.log(present);
+                }
+                // else
+                //   present = false;
+                  //console.log(present);
+
+              })
+              //console.log(pageIDs);
+              console.log(present);
+              if (present == true)
+                return d3.rgb(201, 0, 122)
+              else 
               // if (d.id exists in pageIDS)
               // return d3.rgb(201, 0, 122)
               // else
@@ -352,6 +367,18 @@ function generalBubbles() {
             .on("click", function(d) { 
               clearAndUpdate(d.id);
 
+            })
+            .on("mouseover", function(d) {
+              console.log(d);
+              d3.select(this).style("fill", "pink");
+            })
+            .on("mouseout", function(d) {
+
+              d3.select(this).style("fill", function() {
+              if (d.gender == "female")
+                return d3.rgb(201, 0, 122);
+              else
+                return d3.rgb(38, 24, 177);})
             });
 
         node.append("text")
