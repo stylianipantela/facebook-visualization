@@ -1,7 +1,7 @@
 facebook-visualization
 ======================
 
-### Goal
+###Goal
 Visualization of Facebook Likes of your network.
 
 ###Step 1: Facebook Login
@@ -16,7 +16,7 @@ For privacy reasons we have removed the actual names of the data but you can ass
 
 The visualization did not look particularly appealing aesthetically and at the same time it did not summarize very well the likes of our friends. That is when we decided to pivot.
 
-###Bubbles, bubbles everywhere
+###Step 3: Bubbles, bubbles everywhere
 
 We tried out the Zoomable Circle Packing(http://bl.ocks.org/mbostock/7607535) to represent a user's likes. The result can be seen in the following two images. The first one shows the general view and the second one shows the zoomed in view.
 
@@ -27,7 +27,7 @@ Originally we were getting many white circles isolated from the rest of the grap
 
 <img src="img/bubble_filtered.png" width="400" style="display: block; margin-left:auto; margin-right:auto;"/>
 
-###Creating a general view
+###Step 4: Creating a general view
 
 After deciding on the details view it was time to work on a general view of our friends. Male friends are blue bubbles and female friends are red and once we click on a friend we see the details view. 
 
@@ -36,7 +36,7 @@ For the general bubbles design we built on Bubble Chart (http://bl.ocks.org/mbos
 <img src="img/twoviews.png" width="400" style="display: block; margin-left:auto; margin-right:auto;"/>
 
 
-### Telling a story
+###Step 5: Telling a story
 After thinking about our data and the principles of the class we realized it would be awesome to actually be able to tell a story of some sort. Friends want to stalk their friends and what better way to do it than with a visualization that expores their likes. We rank your friends and only show the top people (i.e. the friends that you have the most mutual friends with) and then we allow you to look at their likes. Likes are arranged by category. Also, common likes between you and the friend you are checking out have a differnt color, pretty cool, huh? Let the stalking begin.
 
 
