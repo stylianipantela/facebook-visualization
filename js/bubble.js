@@ -1,4 +1,5 @@
-var diameter = 500;
+var diameter = 550;
+
 
 var color = d3.scale.linear()
     .domain([-1, 5])
@@ -43,7 +44,6 @@ function addToLikes(nextPage) {
   // console.log(nextPage);
     if (typeof nextPage !== 'undefined') {
         d3.json(nextPage, function(error, d) {
-          console.log(d);
             (d.data).map(function(d) {
               likesarray.push(d);
             });
@@ -130,10 +130,12 @@ function finishBubble (root) {
                   present = true;
               })
               if (present == true)
-                return d3.rgb(201, 0, 122);
+                return d3.rgb(232, 2, 60);
               else 
                 return d.children ? color(d.depth) : null; 
             })
+            .attr("stroke", "white")
+            .attr("stroke-width", 3)
             .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
 
         var text = svg.selectAll("text")
@@ -152,7 +154,7 @@ function finishBubble (root) {
         var node = svg.selectAll("circle,text");
 
         d3.select("#detailVis")
-            .style("background", color(-1))
+            //.style("background", color(10))
             .on("click", function() { zoom(root); });
 
         zoomTo([root.x, root.y, root.r]);
@@ -192,8 +194,6 @@ function bubble(id) {
     // get the friend's likes on click, right now just gets user's likes
     FB.api(id+"/likes", function(res){
       if (typeof res.data !== 'undefined'){
-        console.log(res.data, "resdata");
-        console.log(res, "resdata2");
         res.data.map(function(d) {
           likesarray.push(d);
         })
@@ -211,9 +211,12 @@ function bubble(id) {
 
 
 
-var diameter1 = 800,
+var diameter1 = 600,
     format = d3.format(",d"),
     color = d3.scale.category20c();
+
+
+
 
 var bubble1 = d3.layout.pack()
     .sort(null)
@@ -221,7 +224,7 @@ var bubble1 = d3.layout.pack()
     .padding(1.5);
 
 var svg1 = d3.select("#vis").append("svg")
-            .style("background", color(-1))
+       //     .style("background", color(-1))
 
      .attr("width", diameter1)
     .attr("height", diameter1)
@@ -336,19 +339,19 @@ function generalBubbles() {
           .attr("class", "node")
           .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
-        node.append("title")
-            .text(function(d) { return d.className + ": " + format(d.value); });
+        //node.append("title")
+         //   .text(function(d) { 
+           //   return d.className + ": " + format(d.value); });
 
         node.append("circle")
             .attr("r", function(d) { return d.r; })
             .style("fill", function(d) {
-              console.log(d);
 
               // add colors for the two genders
               if (d.gender == "female")
-                return d3.rgb(201, 0, 122);
+                 return "rgba(187, 79, 255,0.50)";
               else
-                return d3.rgb(38, 24, 177);
+                return "rgba(29, 164, 232, 0.5)";
             })
             .on("click", function(d) { 
 
@@ -356,30 +359,45 @@ function generalBubbles() {
 
             })
             .on("mouseover", function(d) {
-
-
-
-
-
-
-
-              console.log(likesarray);
-              console.log(d);
-              d3.select(this).style("fill", "pink");
+              d3.select(this).style("fill", "black");
             })
+            .attr("stroke", "white")
+            .attr("stroke-width", 3)
             .on("mouseout", function(d) {
 
               d3.select(this).style("fill", function() {
               if (d.gender == "female")
-                return d3.rgb(201, 0, 122);
+                return "rgba(187, 79, 255,0.50)";
               else
-                return d3.rgb(38, 24, 177);})
+               return "rgba(29, 164, 232, 0.5)";})
             });
 
         node.append("text")
             .attr("dy", ".3em")
+
+
             .style("text-anchor", "middle")
-            .text(function(d) { return d.className.substring(0, d.r / 3); });
+            .text(function(d) {
+              var nameArray = (d.className).split(" ");
+              //d3.select(this).text(nameArray[0])
+              return nameArray[0].substring(0, d.r / 4)//  + '<br/>' + nameArray[nameArray.length - 1]
+              ;
+               })
+            .attr({transform: "translate(0,-10)"})
+            .attr("fill", "white")
+            .attr("font-size", "15px");
+
+        node.append("text")
+            .attr("dy", ".3em")
+            .style("text-anchor", "middle")
+            .text(function(d) {
+              var nameArray = (d.className).split(" ");
+              
+              return nameArray[nameArray.length - 1].substring(0, d.r / 4);
+               })
+            .attr({transform: "translate(0,10)"})
+            .attr("fill", "white")
+            .attr("font-size", "12px");
       }
       
     });
