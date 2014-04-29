@@ -306,12 +306,18 @@ function generalBubbles() {
       friends.data.forEach(function(val, idx) {
         
         FB.api(val.id + "/likes", function(likes) {
-          // FB.api('/me/mutualfriends/' + val.id, function(mutualfriends) {
-            if (typeof likes.data !== 'undefined' && likes.data.length){
+
+        FB.api("/" + val.id + "/mutualfriends", function(res){
+          if (typeof likes.data !== 'undefined' && likes.data.length){
+                friends.data[idx].total = res.data.length;
                 newfriends.push(friends.data[idx]); 
             }
-            afterRankingDataAdded(friends.data.length);     
-          // });
+            afterRankingDataAdded(friends.data.length);
+        });
+      
+      
+                 
+        
         });
       });
      
@@ -320,6 +326,7 @@ function generalBubbles() {
       // after friends are ranked and filtered processing
       var rankedFriends = 0;
       function afterRankingDataAdded(max) {
+
         rankedFriends++;
         if (rankedFriends != max)
           return;
@@ -328,9 +335,15 @@ function generalBubbles() {
           root = {}
           root.name = user.name;
           root.children = []
-
+          newfriends.sort(function(a, b){   
+              return -a.total+b.total;
+            });
+            newfriends.splice(40, newfriends.length-40);
+            console.log("new friends");
+            console.log(newfriends);
           // friend names and genders, val is a friend's id and idx is the indexs
           newfriends.forEach(function(val, idx) {
+
             root.children.push({name: "Dummy name", size: 1400, id: val.id});
 
             FB.api('/' + val.id, function(friend) {
