@@ -139,6 +139,9 @@ function finishBubble (root) {
             .data(nodes)
           .enter().append("text")
             .attr("class", "label")
+            // play around with details font
+            .attr("fill", "white")
+            .attr("font-size", "12px")
             .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
             .style("display", function(d) { return d.parent === root ? null : "none"; })
             .text(function(d) { 
@@ -293,7 +296,7 @@ function generalBubbles() {
 
       FB.api("me/friends",{
       fields:'id',
-      // limit:100
+      limit:100
     },function(friends){
 
       // add number of mutual friends
@@ -402,8 +405,6 @@ function generalBubbles() {
 
         node.append("text")
             .attr("dy", ".3em")
-
-
             .style("text-anchor", "middle")
             .text(function(d) {
               var nameArray = (d.className).split(" ");
