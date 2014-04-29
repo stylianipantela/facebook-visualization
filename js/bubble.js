@@ -93,7 +93,6 @@ function addToLikes(nextPage) {
               })
             };
           });
-          // console.log(flare);
           finishBubble(flare);
         }
       }
@@ -339,8 +338,6 @@ function generalBubbles() {
               return -a.total+b.total;
             });
             newfriends.splice(40, newfriends.length-40);
-            console.log("new friends");
-            console.log(newfriends);
           // friend names and genders, val is a friend's id and idx is the indexs
           newfriends.forEach(function(val, idx) {
 
