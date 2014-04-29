@@ -41,7 +41,6 @@ var likesarray = [];
 var present = false;
 
 function addToLikes(nextPage) {
-  // console.log(nextPage);
     if (typeof nextPage !== 'undefined') {
         d3.json(nextPage, function(error, d) {
             (d.data).map(function(d) {
@@ -57,7 +56,6 @@ function addToLikes(nextPage) {
         });
     }
     else {
-      // console.log(likesarray);
       // pre-process data by category
 
       var numKeys = 0;
@@ -281,7 +279,6 @@ function collectNames(data) {
 
 }
 
-
 // Responsible for the general view
 
 function generalBubbles() {
@@ -291,43 +288,63 @@ function generalBubbles() {
 
   FB.api('/me', function(user) {
 
-
-
       FB.api("me/likes", function (d) {
         collectNames(d); 
-
       })
-       // console.log(pageIDs);
-
 
       FB.api("me/friends",{
       fields:'id',
-      limit:40
+      // limit:300
     },function(friends){
-      // putting them in structure
-      root = {}
-      root.name = user.name;
-      root.children = []
-      // d.id is the friend's id and d represents a friend
-      friends.data.forEach(function (d, idx) {
-        root.children.push({name: "Dummy name", size: 1400, id: d.id});
-      });
 
-      // friend names and genders
+      // add number of mutual friends
+      // TODO rank the friends and only keep the top 40 based on count_mf
+      // rather than filtering out
+      // TODO speedup
+
+      var newfriends = [];
       friends.data.forEach(function(val, idx) {
-        FB.api('/' + val.id, function(friend) {
-          root.children[idx].name = friend.name;
-          root.children[idx].gender = friend.gender;
-          friendNames(root.children.length);
-        })
-      });
+        FB.api('/me/mutualfriends/' + val.id, function(mutualfriends) {
+          // console.log(mutualfriends.data.length);
+
+          friends.data[idx].count_mf = mutualfriends.data.length;
+          if (friends.data[idx].count_mf > 100)
+            newfriends.push(friends.data[idx]);
+          afterRankingDataAdded(friends.data.length);
+
+        });
+      });        
+
+
+      // after friends are ranked and filtered processing
+      var rankedFriends = 0;
+      function afterRankingDataAdded(max) {
+        rankedFriends++;
+        if (rankedFriends != max)
+          return;
+
+          // putting them in structure
+          root = {}
+          root.name = user.name;
+          root.children = []
+
+          // friend names and genders, val is a friend's id and idx is the indexs
+          newfriends.forEach(function(val, idx) {
+            root.children.push({name: "Dummy name", size: 1400, id: val.id});
+
+            FB.api('/' + val.id, function(friend) {
+              root.children[idx].name = friend.name;
+              root.children[idx].gender = friend.gender;
+              friendNames(root.children.length);
+            })
+          });
+      }
 
       var friendCount = 0;
       function friendNames(max) {
         friendCount++;
         if (friendCount != max)
           return;
-        // console.log(root);
         restBubbles();
       }
 
@@ -360,6 +377,7 @@ function generalBubbles() {
             })
             .on("mouseover", function(d) {
               d3.select(this).style("fill", "black");
+
             })
             .attr("stroke", "white")
             .attr("stroke-width", 3)
@@ -410,7 +428,6 @@ function classes(root) {
   var classes = [];
 
   function recurse(name, node) {
-    // console.log(name, node);
     if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
     else classes.push({packageName: name, className: node.name, value: node.size, gender: node.gender, id: node.id});
   }
