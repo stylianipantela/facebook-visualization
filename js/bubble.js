@@ -291,12 +291,13 @@ function generalBubbles() {
 
       FB.api("me/friends",{
       fields:'id',
-      limit:100
+      limit:300
     },function(friends){
 
       // add number of mutual friends
       // TODO rank the friends and only keep the top 40 based on count_mf
       // rather than filtering out
+      // TODO speedup
 
       var newfriends = [];
       friends.data.forEach(function(val, idx) {
@@ -324,13 +325,10 @@ function generalBubbles() {
           root.name = user.name;
           root.children = []
 
-          // d.id is the friend's id and d represents a friend
-          newfriends.forEach(function (d, idx) {
-            root.children.push({name: "Dummy name", size: 1400, id: d.id});
-          });
-
-          // friend names and genders
+          // friend names and genders, val is a friend's id and idx is the indexs
           newfriends.forEach(function(val, idx) {
+            root.children.push({name: "Dummy name", size: 1400, id: val.id});
+
             FB.api('/' + val.id, function(friend) {
               root.children[idx].name = friend.name;
               root.children[idx].gender = friend.gender;
