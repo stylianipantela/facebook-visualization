@@ -127,10 +127,10 @@ function finishBubble (root) {
                 if (d.id == id)
                   present = true;
               })
-              if (present == true)
-                return d3.rgb(232, 2, 60);
-              else 
-                return d.children ? color(d.depth) : null; 
+              if (present)
+                return "rgba(29, 164, 232, 0.5)";
+              else
+                return "rgba(187, 79, 255,0.50)";
             })
             .attr("stroke", "white")
             .attr("stroke-width", 3)
@@ -182,28 +182,32 @@ function finishBubble (root) {
       d3.select(self.frameElement).style("height", diameter + "px");
 }
 
-
 //TODO: pass id into bubble and instead of calling FB.api("me/likes") call FB.api("" + id + "/like");
 // and in order make the vis less messy you might have to remove the details svg
 function bubble(id) {
 
-  //svg.style("visibility", "visible");
-  console.log("bubble is called");
-    // get the friend's likes on click, right now just gets user's likes
-    FB.api(id+"/likes", function(res){
-      if (typeof res.data !== 'undefined'){
-        res.data.map(function(d) {
-          likesarray.push(d);
-        })
-      }
-     
-      if (typeof res.paging !== 'undefined') {
-        addToLikes(res.paging.next);
-      }
-      else {
-        addToLikes(res.paging);
-      }
-    });   
+  // console.log("bubble is called");
+  FB.api('/' + id, function(user) { 
+    console.log(user.first_name, user.last_name);
+    $('#detailsUser').text(user.first_name + ' ' + user.last_name + '\'s Likes');
+
+  });
+
+  // get the friend's likes on click, right now just gets user's likes
+  FB.api(id+"/likes", function(res){
+    if (typeof res.data !== 'undefined'){
+      res.data.map(function(d) {
+        likesarray.push(d);
+      })
+    }
+   
+    if (typeof res.paging !== 'undefined') {
+      addToLikes(res.paging.next);
+    }
+    else {
+      addToLikes(res.paging);
+    }
+  });   
   likesarray = [];
 }
 
@@ -229,7 +233,6 @@ var svg1 = d3.select("#vis").append("svg")
     .attr("class", "bubble");
 
 var clearAndUpdate = function(data) {
-  
   d3.select("#detailVis").select("svg").remove();             
   svg = d3.select("#detailVis").append("svg")
     .attr("width", diameter)
@@ -240,9 +243,6 @@ var clearAndUpdate = function(data) {
   bubble(data);
 
 }
-
-
-
 
 var pageIDs = []
 var userPageIDsDone = 0;
@@ -294,7 +294,7 @@ function generalBubbles() {
 
       FB.api("me/friends",{
       fields:'id',
-      // limit:300
+      limit:100
     },function(friends){
 
       // add number of mutual friends
@@ -304,16 +304,17 @@ function generalBubbles() {
 
       var newfriends = [];
       friends.data.forEach(function(val, idx) {
-        FB.api('/me/mutualfriends/' + val.id, function(mutualfriends) {
-          // console.log(mutualfriends.data.length);
-
-          friends.data[idx].count_mf = mutualfriends.data.length;
-          if (friends.data[idx].count_mf > 100)
-            newfriends.push(friends.data[idx]);
-          afterRankingDataAdded(friends.data.length);
-
+        
+        FB.api(val.id + "/likes", function(likes) {
+          // FB.api('/me/mutualfriends/' + val.id, function(mutualfriends) {
+            if (typeof likes.data !== 'undefined' && likes.data.length){
+                newfriends.push(friends.data[idx]); 
+            }
+            afterRankingDataAdded(friends.data.length);     
+          // });
         });
-      });        
+      });
+     
 
 
       // after friends are ranked and filtered processing
@@ -371,7 +372,6 @@ function generalBubbles() {
                 return "rgba(29, 164, 232, 0.5)";
             })
             .on("click", function(d) { 
-
               clearAndUpdate(d.id);
 
             })

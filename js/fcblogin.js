@@ -117,10 +117,6 @@ window.fbAsyncInit = function() {
         collapsibleTree();
       }
       else if (typeof bubbleVar !== 'undefined') {
-        bubble();
-        generalBubbles();
-      }
-      else if (typeof generalBubbleVar !== 'undefined') {
         generalBubbles();
       }
 
