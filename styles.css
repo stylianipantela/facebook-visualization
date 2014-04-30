@@ -38,7 +38,7 @@ table {
 .label,
 .node--root,
 .node--leaf {
-  pointer-events: none;
+  /*pointer-events: none;*/
 }
 
 #detailVis {
@@ -55,3 +55,18 @@ table {
   border-radius: 15px;
   font-family: Garamond;
 }
+
+div.tooltip {   
+  position: absolute;           
+  text-align: center;           
+  /*width: 40px;                  */
+  /*height: 100%;                 */
+  padding: 2px;             
+  font: 12px sans-serif;        
+  background: black;   
+  color: white;
+  border: 0px;      
+  border-radius: 8px;           
+  pointer-events: none;         
+}
+

@@ -1,5 +1,8 @@
 var diameter = 550;
 
+var div = d3.select("#detailVis").append("div")   
+    .attr("class", "tooltip")               
+    .style("opacity", 0);
 
 var color = d3.scale.linear()
     .domain([-1, 5])
@@ -117,15 +120,15 @@ function finishBubble (root) {
 
         var circle = svg.selectAll("circle")
             .data(nodes)
-          .enter().append("circle")
+            .enter().append("circle")
             .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
-            .style("fill", function(d) { 
+            .style("fill", function(d) {
               var present = false;
               // TODO: check if d.id exists in pageIDs give it d3.rgb(201, 0, 122) instead of color(d.depth)
               pageIDs.map(function (id) {
                 if (d.id == id)
                   present = true;
-              })
+              });
               if (present)
                 return "rgba(29, 164, 232, 0.5)";
               else
@@ -133,23 +136,49 @@ function finishBubble (root) {
             })
             .attr("stroke", "white")
             .attr("stroke-width", 3)
-            .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+            .on("click", function(d) {
+              div.transition()        
+                    .duration(500)      
+                    .style("opacity", 0);   
+                    console.log(focus, "focus", d, "d");
+              if (focus !== d) zoom(d), d3.event.stopPropagation();})
+            .on("mouseover", function(d) { 
+                     div.transition()        
+                        .duration(200)      
+                        .style("opacity", .9);      
+                    div.html(d.name)  
+                        .style("left", (d3.event.pageX) + "px")     
+                        .style("top", (d3.event.pageY - 28) + "px");  
+            })                  
+            .on("mouseout", function(d) { 
+                div.transition()        
+                    .duration(500)      
+                    .style("opacity", 0);   
+            });
+
 
         var text = svg.selectAll("text")
             .data(nodes)
           .enter().append("text")
             .attr("class", "label")
             // play around with details font
-            .attr("fill", "white")
+            .attr("fill", function(d) {
+              if (d.depth < 2)
+                return "transparent";
+              else 
+                return "white";
+
+            })
             .attr("font-size", "12px")
             .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
             .style("display", function(d) { return d.parent === root ? null : "none"; })
             .text(function(d) { 
-              if ((typeof d.children !== 'undefined' && d.children.length > 1) || d.parent.name != "flare")          
+              if ((typeof d.children !== 'undefined' && d.children.length > 1) || (typeof d.parent !== 'undefined' && d.parent.name != "flare"))         
                 return d.name.substring(0, 15);
               else 
                 return "";
             });
+
 
         var node = svg.selectAll("circle,text");
 
@@ -190,7 +219,7 @@ function bubble(id) {
 
   // console.log("bubble is called");
   FB.api('/' + id, function(user) { 
-    console.log(user.first_name, user.last_name);
+    // console.log(user.first_name, user.last_name);
     $('#detailsUser').text(user.first_name + ' ' + user.last_name + '\'s Likes');
 
   });
@@ -315,25 +344,18 @@ function generalBubbles() {
     },function(friends){
 
       // add number of mutual friends
-      // TODO rank the friends and only keep the top 40 based on count_mf
-      // rather than filtering out
-      // TODO speedup
-
+      // filter out friends with no likes
       var newfriends = [];
-      friends.data.forEach(function(val, idx) {
-        
-        FB.api(val.id + "/likes", function(likes) {
 
-        FB.api("/" + val.id + "/mutualfriends", function(res){
-          if (typeof likes.data !== 'undefined' && likes.data.length){
-                friends.data[idx].total = res.data.length;
-                newfriends.push(friends.data[idx]); 
-            }
-            afterRankingDataAdded(friends.data.length);
-        });
-      
-      
-                 
+      friends.data.forEach(function(val, idx) {
+        FB.api(val.id + "/likes", function(likes) {
+          FB.api("/" + val.id + "/mutualfriends", function(res){
+            if (typeof likes.data !== 'undefined' && likes.data.length){
+                  friends.data[idx].total = res.data.length;
+                  newfriends.push(friends.data[idx]); 
+              }
+              afterRankingDataAdded(friends.data.length);
+          });              
         
         });
       });
@@ -343,8 +365,6 @@ function generalBubbles() {
       // after friends are ranked and filtered processing
       var rankedFriends = 0;
       function afterRankingDataAdded(max) {
-
-
         rankedFriends++;
         if (rankedFriends != max)
           return;
