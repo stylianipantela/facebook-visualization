@@ -234,6 +234,8 @@ var svg1 = d3.select("#vis").append("svg")
     .attr("height", diameter1)
     .attr("class", "bubble");
 
+
+
 var clearAndUpdate = function(data) {
   d3.select("#detailVis").select("svg").remove();             
   svg = d3.select("#detailVis").append("svg")
@@ -285,6 +287,19 @@ function collectNames(data) {
 
 function generalBubbles() {
 
+  svg1.append("svg:image")
+      .attr("xlink:href", "http://creditworksusa.com/wp-content/uploads/2014/04/loading-bar-gif-transparent.gif")
+      .attr("width", 300)
+      .attr("height", 400)
+      .attr({transform: "translate(150,70)"});
+
+  svg1.append("text")
+    .text("Friend Analysis Under Way")
+    .attr({transform: "translate(150,220)"})
+    .attr("fill", "blue")
+    .attr("font-size", "25px");
+
+
   
   // gets all your friends
 
@@ -329,6 +344,7 @@ function generalBubbles() {
       var rankedFriends = 0;
       function afterRankingDataAdded(max) {
 
+
         rankedFriends++;
         if (rankedFriends != max)
           return;
@@ -360,6 +376,8 @@ function generalBubbles() {
         if (friendCount != max)
           return;
         restBubbles();
+        d3.select("#vis").select("svg").select("image").remove()
+        d3.select("#vis").select("svg").select("text").remove()
       }
 
       function restBubbles () {
@@ -427,7 +445,9 @@ function generalBubbles() {
             .attr({transform: "translate(0,10)"})
             .attr("fill", "white")
             .attr("font-size", "12px");
+
       }
+
       
     });
   });
