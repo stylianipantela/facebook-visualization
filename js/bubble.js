@@ -130,9 +130,9 @@ function finishBubble (root) {
                   present = true;
               });
               if (present)
-                return "rgba(29, 164, 232, 0.5)";
+                return "rgb(174, 0, 255)";
               else
-                return "rgba(187, 79, 255,0.50)";
+                return "rgba(29, 164, 232, 0.25)";
             })
             .attr("stroke", "white")
             .attr("stroke-width", 3)
@@ -324,8 +324,12 @@ function generalBubbles() {
 
   svg1.append("text")
     .text("Friend Analysis Under Way")
-    .attr({transform: "translate(150,220)"})
-    .attr("fill", "blue")
+    .attr({transform: "translate(120,220)"})
+    .attr("fill", function() {
+      return "rgb(0, 194, 255)";
+    })
+    .attr("stroke", "black")
+    .attr("font-family", "verdana")
     .attr("font-size", "25px");
 
 
@@ -452,7 +456,11 @@ function generalBubbles() {
                })
             .attr({transform: "translate(0,-10)"})
             .attr("fill", "white")
-            .attr("font-size", "15px");
+            .attr("font-size", "15px")
+            .on("click", function(d) { 
+              clearAndUpdate(d.id);
+
+            });
 
         node.append("text")
             .attr("dy", ".3em")
@@ -464,7 +472,11 @@ function generalBubbles() {
                })
             .attr({transform: "translate(0,10)"})
             .attr("fill", "white")
-            .attr("font-size", "12px");
+            .attr("font-size", "12px")
+            .on("click", function(d) { 
+              clearAndUpdate(d.id);
+
+            });
 
       }
 
