@@ -79,7 +79,7 @@ function addToLikes(nextPage) {
         numKeys--;
         if (numKeys == 0) {
           flare = {}
-          flare.name = "flare";
+          flare.name = "Likes";
 
           // filter out the Categories with just one element
           categoryMapT = categoryMap
@@ -143,12 +143,13 @@ function finishBubble (root) {
                     console.log(focus, "focus", d, "d");
               if (focus !== d) zoom(d), d3.event.stopPropagation();})
             .on("mouseover", function(d) { 
-                     div.transition()        
-                        .duration(200)      
-                        .style("opacity", .9);      
-                    div.html(d.name)  
-                        .style("left", (d3.event.pageX) + "px")     
-                        .style("top", (d3.event.pageY - 28) + "px");  
+              div.transition()        
+                  .duration(200)      
+                  .style("opacity", .9);  
+              div.html(d.parent.name + " - " + d.name)  
+                  .style("left", (d3.event.pageX) + "px")     
+                  .style("top", (d3.event.pageY - 28) + "px");  
+                   
             })                  
             .on("mouseout", function(d) { 
                 div.transition()        
@@ -173,7 +174,7 @@ function finishBubble (root) {
             .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
             .style("display", function(d) { return d.parent === root ? null : "none"; })
             .text(function(d) { 
-              if ((typeof d.children !== 'undefined' && d.children.length > 1) || (typeof d.parent !== 'undefined' && d.parent.name != "flare"))         
+              if ((typeof d.children !== 'undefined' && d.children.length > 1) || (typeof d.parent !== 'undefined' && d.parent.name != "Likes"))         
                 return d.name.substring(0, 15);
               else 
                 return "";

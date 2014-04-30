@@ -59,8 +59,6 @@ table {
 div.tooltip {   
   position: absolute;           
   text-align: center;           
-  /*width: 40px;                  */
-  /*height: 100%;                 */
   padding: 2px;             
   font: 12px sans-serif;        
   background: black;   
