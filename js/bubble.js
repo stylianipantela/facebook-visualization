@@ -295,8 +295,12 @@ function generalBubbles() {
 
   svg1.append("text")
     .text("Friend Analysis Under Way")
-    .attr({transform: "translate(150,220)"})
-    .attr("fill", "blue")
+    .attr({transform: "translate(120,220)"})
+    .attr("fill", function() {
+      return "rgb(0, 194, 255)";
+    })
+    .attr("stroke", "black")
+    .attr("font-family", "verdana")
     .attr("font-size", "25px");
 
 
