@@ -127,9 +127,9 @@ function finishBubble (root) {
                   present = true;
               })
               if (present)
-                return "rgba(29, 164, 232, 0.5)";
+                return "rgb(174, 0, 255)";
               else
-                return "rgba(187, 79, 255,0.50)";
+                return "rgba(29, 164, 232, 0.25)";
             })
             .attr("stroke", "white")
             .attr("stroke-width", 3)
@@ -140,8 +140,8 @@ function finishBubble (root) {
           .enter().append("text")
             .attr("class", "label")
             // play around with details font
-            .attr("fill", "white")
-            .attr("font-size", "12px")
+            .attr("fill", "blue")
+            .attr("font-size", "20px")
             .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
             .style("display", function(d) { return d.parent === root ? null : "none"; })
             .text(function(d) { 
@@ -432,7 +432,11 @@ function generalBubbles() {
                })
             .attr({transform: "translate(0,-10)"})
             .attr("fill", "white")
-            .attr("font-size", "15px");
+            .attr("font-size", "15px")
+            .on("click", function(d) { 
+              clearAndUpdate(d.id);
+
+            });
 
         node.append("text")
             .attr("dy", ".3em")
@@ -444,7 +448,11 @@ function generalBubbles() {
                })
             .attr({transform: "translate(0,10)"})
             .attr("fill", "white")
-            .attr("font-size", "12px");
+            .attr("font-size", "12px")
+            .on("click", function(d) { 
+              clearAndUpdate(d.id);
+
+            });
 
       }
 
