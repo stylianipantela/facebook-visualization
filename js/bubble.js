@@ -166,31 +166,28 @@ function finishBubble (root) {
               }
             })
             .on("mouseover", function(d) { 
-              if (d.parent != undefined) {
-
-
+              if (d.parent != undefined && d.depth == 2) {
 
                       div.transition()        
                           .duration(200)      
                           .style("opacity", .9);  
                       if (typeof d.parent !== 'undefined') {
                 
-                        FB.api('/' + d.id, function(page) { 
-                          console.log(page);
+                        // FB.api('/' + d.id, function(page) { 
+                        //   console.log(page);
 
-                        });
+                        // });
 
                         div.html(d.parent.name + " - " + d.name + "<br>" + 
                           "<iframe id=\"frame\" src=\"http://www.bing.com/search?q=" + d.name + "\">")
-                          .style("left", (d3.event.pageX) + "px")     
-                          .style("top", (d3.event.pageY - 28) + "px");  
+                          .style("left", (d3.event.pageX - 500) + "px")     
+                          .style("top", (d3.event.pageY - 420) + "px");  
                       }
               }
               else {
                 div.transition()        
                      .duration(200)      
                      .style("opacity", 0);  
-
               }          
 
 
@@ -389,7 +386,7 @@ function generalBubbles() {
 
       FB.api("me/friends",{
       fields:'id',
-      limit:100
+      limit:200
     },function(friends){
 
       // add number of mutual friends

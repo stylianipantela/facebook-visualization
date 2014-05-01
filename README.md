@@ -10,6 +10,7 @@ http://spant.github.io/facebook-visualization/
 ## Video
 
 ## Process Book
+http://goo.gl/BCjpCi
 
 ## Instructions 
 1. Go to your repository and type in the command line `python -m SimpleHTTPServer`

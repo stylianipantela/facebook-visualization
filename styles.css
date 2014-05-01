@@ -79,6 +79,8 @@ div.tooltip {
 
 }
 
+#legend_button{ cursor: pointer; }
+
 #frame {
     width: 500px;
     height: 420px;
