@@ -178,7 +178,9 @@ function finishBubble (root) {
                 return d.name.substring(0, 15);
               else 
                 return "";
-            });
+            })
+            .attr("fill", "black")
+            .attr("stroke-width", "0px");
 
 
         var node = svg.selectAll("circle,text");
