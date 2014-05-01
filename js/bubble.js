@@ -157,7 +157,7 @@ function finishBubble (root) {
               
               if (d.depth != 2) {
                 div.transition()        
-                      .duration(500)      
+                      .duration(200)      
                       .style("opacity", 0);   
                 if (focus !== d) zoom(d), d3.event.stopPropagation();
               }
@@ -188,7 +188,7 @@ function finishBubble (root) {
               }
               else {
                 div.transition()        
-                     .duration(500)      
+                     .duration(200)      
                      .style("opacity", 0);  
 
               }          
@@ -197,7 +197,7 @@ function finishBubble (root) {
             })                  
             .on("mouseout", function(d) { 
                 div.transition()        
-                    .duration(500)      
+                    .duration(200)      
                     .style("opacity", 0);   
             });
 
