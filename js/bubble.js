@@ -137,18 +137,29 @@ function finishBubble (root) {
             .attr("stroke", "white")
             .attr("stroke-width", 3)
             .on("click", function(d) {
+              console.log()
               div.transition()        
                     .duration(500)      
                     .style("opacity", 0);   
                     console.log(focus, "focus", d, "d");
               if (focus !== d) zoom(d), d3.event.stopPropagation();})
             .on("mouseover", function(d) { 
-              div.transition()        
-                  .duration(200)      
+
+              if (d.parent != undefined) {
+                div.transition()        
+                  .duration(200)
                   .style("opacity", .9);  
-              div.html(d.parent.name + " - " + d.name)  
-                  .style("left", (d3.event.pageX) + "px")     
-                  .style("top", (d3.event.pageY - 28) + "px");  
+              div.html(d.parent.name + " - " + d.name)
+                   .style("left", (d3.event.pageX) + "px")     
+                   .style("top", (d3.event.pageY - 28) + "px");
+              }
+              else {
+                div.transition()        
+                    .duration(500)      
+                    .style("opacity", 0);   
+
+              }
+              
                    
             })                  
             .on("mouseout", function(d) { 
@@ -178,9 +189,7 @@ function finishBubble (root) {
                 return d.name.substring(0, 15);
               else 
                 return "";
-            })
-            .attr("fill", "black")
-            .attr("stroke-width", "0px");
+            });
 
 
         var node = svg.selectAll("circle,text");

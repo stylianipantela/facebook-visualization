@@ -29,6 +29,7 @@ table {
   fill: #003D99;
 }
 
+
 .label {
   font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-anchor: middle;
@@ -58,13 +59,23 @@ table {
 
 div.tooltip {   
   position: absolute;           
-  text-align: center;           
+  text-align: center;  
+  font-weight: bolder;         
   padding: 2px;             
-  font: 12px sans-serif;        
+  font: 18px verdana;
   background: black;   
-  color: white;
+  color: magenta;
   border: 0px;      
-  border-radius: 8px;           
-  pointer-events: none;         
+  border-radius: 6px;   
+  pointer-events: none;
+  /*box-sizing: border-box;*/
+  z-index: 10;
+  display: inline;
+  line-height: 1;
+  content: "\25BC";
+  /*width: 200px;*/
+
+
+
 }
 
