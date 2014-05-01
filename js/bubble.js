@@ -68,8 +68,6 @@ function addToLikes(nextPage) {
           categoryMap[val.category] = [];
           numKeys++;
         }
-        console.log(val);
-
         categoryMap[val.category].push({name: val.name, id: val.id});
       
       });
@@ -172,11 +170,6 @@ function finishBubble (root) {
                           .duration(200)      
                           .style("opacity", .9);  
                       if (typeof d.parent !== 'undefined') {
-                
-                        // FB.api('/' + d.id, function(page) { 
-                        //   console.log(page);
-
-                        // });
 
                         div.html(d.parent.name + " - " + d.name + "<br>" + 
                           "<iframe id=\"frame\" src=\"http://www.bing.com/search?q=" + d.name + "\">")
@@ -258,10 +251,7 @@ function finishBubble (root) {
 //TODO: pass id into bubble and instead of calling FB.api("me/likes") call FB.api("" + id + "/like");
 // and in order make the vis less messy you might have to remove the details svg
 function bubble(id) {
-
-  // console.log("bubble is called");
   FB.api('/' + id, function(user) { 
-    // console.log(user.first_name, user.last_name);
     $('#detailsUser').text(user.first_name + ' ' + user.last_name + '\'s Likes');
 
   });
@@ -337,7 +327,6 @@ function json2(jsonSite) {
 
         })
     }
-// console.log(pageIDs);
 userPageIDsDone = 1;
 }
 
@@ -386,7 +375,7 @@ function generalBubbles() {
 
       FB.api("me/friends",{
       fields:'id',
-      limit:200
+      // limit:200
     },function(friends){
 
       // add number of mutual friends
@@ -420,14 +409,13 @@ function generalBubbles() {
           root.name = user.name;
           root.children = []
           newfriends.sort(function(a, b){   
-              return -a.total+b.total;
+              return b.total-a.total;
             });
-            newfriends.splice(40, newfriends.length-40);
+            newfriends.splice(40, newfriends.length);
           // friend names and genders, val is a friend's id and idx is the indexs
           newfriends.forEach(function(val, idx) {
 
             root.children.push({name: "Dummy name", size: 1400, id: val.id});
-
             FB.api('/' + val.id, function(friend) {
               root.children[idx].name = friend.name;
               root.children[idx].gender = friend.gender;
