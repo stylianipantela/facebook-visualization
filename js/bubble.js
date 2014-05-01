@@ -68,6 +68,7 @@ function addToLikes(nextPage) {
           categoryMap[val.category] = [];
           numKeys++;
         }
+        console.log(val);
 
         categoryMap[val.category].push({name: val.name, id: val.id});
       
@@ -137,30 +138,62 @@ function finishBubble (root) {
             .attr("stroke", "white")
             .attr("stroke-width", 3)
             .on("click", function(d) {
-              console.log()
-              div.transition()        
-                    .duration(500)      
-                    .style("opacity", 0);   
-                    console.log(focus, "focus", d, "d");
-              if (focus !== d) zoom(d), d3.event.stopPropagation();})
-            .on("mouseover", function(d) { 
 
-              if (d.parent != undefined) {
+
+              // if (d.parent != undefined) {
+              //   div.transition()        
+              //     .duration(200)
+              //     .style("opacity", .9);  
+              // div.html(d.parent.name + " - " + d.name)
+              //      .style("left", (d3.event.pageX) + "px")     
+              //      .style("top", (d3.event.pageY - 28) + "px");
+              // }
+              // else {
+              //   div.transition()        
+              //       .duration(500)      
+              //       .style("opacity", 0);   
+
+              // }
+              
+              if (d.depth != 2) {
                 div.transition()        
-                  .duration(200)
-                  .style("opacity", .9);  
-              div.html(d.parent.name + " - " + d.name)
-                   .style("left", (d3.event.pageX) + "px")     
-                   .style("top", (d3.event.pageY - 28) + "px");
+                      .duration(500)      
+                      .style("opacity", 0);   
+                if (focus !== d) zoom(d), d3.event.stopPropagation();
+              }
+              else {
+                window.open('http://www.bing.com/search?q='+d.name);
+              }
+            })
+            .on("mouseover", function(d) { 
+              if (d.parent != undefined) {
+
+
+
+                      div.transition()        
+                          .duration(200)      
+                          .style("opacity", .9);  
+                      if (typeof d.parent !== 'undefined') {
+                
+                        FB.api('/' + d.id, function(page) { 
+                          console.log(page);
+
+                        });
+
+                        div.html(d.parent.name + " - " + d.name + "<br>" + 
+                          "<iframe id=\"frame\" src=\"http://www.bing.com/search?q=" + d.name + "\">")
+                          .style("left", (d3.event.pageX) + "px")     
+                          .style("top", (d3.event.pageY - 28) + "px");  
+                      }
               }
               else {
                 div.transition()        
-                    .duration(500)      
-                    .style("opacity", 0);   
+                     .duration(500)      
+                     .style("opacity", 0);  
 
-              }
-              
-                   
+              }          
+
+
             })                  
             .on("mouseout", function(d) { 
                 div.transition()        

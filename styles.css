@@ -79,3 +79,15 @@ div.tooltip {
 
 }
 
+#frame {
+    width: 500px;
+    height: 420px;
+    border: none;
+    -moz-transform: scale(1);
+    -moz-transform-origin: 0 0;
+    -o-transform: scale(0.9);
+    -o-transform-origin: -3px -10px;
+    -webkit-transform: scale(0.9);
+    -webkit-transform-origin: 0 0;
+}
+
