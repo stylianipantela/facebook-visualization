@@ -166,9 +166,7 @@ function finishBubble (root) {
               }
             })
             .on("mouseover", function(d) { 
-              if (d.parent != undefined) {
-
-
+              if (d.parent != undefined && d.depth == 2) {
 
                       div.transition()        
                           .duration(200)      
