@@ -68,6 +68,7 @@ function addToLikes(nextPage) {
           categoryMap[val.category] = [];
           numKeys++;
         }
+        console.log(val);
 
         categoryMap[val.category].push({name: val.name, id: val.id});
       
@@ -137,18 +138,37 @@ function finishBubble (root) {
             .attr("stroke", "white")
             .attr("stroke-width", 3)
             .on("click", function(d) {
-              div.transition()        
-                    .duration(500)      
-                    .style("opacity", 0);   
-                    console.log(focus, "focus", d, "d");
-              if (focus !== d) zoom(d), d3.event.stopPropagation();})
+              if (d.depth != 2) {
+                div.transition()        
+                      .duration(500)      
+                      .style("opacity", 0);   
+                if (focus !== d) zoom(d), d3.event.stopPropagation();
+              }
+              else {
+                window.open('http://www.bing.com/search?q='+d.name);
+              }
+            })
             .on("mouseover", function(d) { 
+              // FB.api('/' + d.id, function(page) { 
+
+              // }
+
+              // console.log(d);
               div.transition()        
                   .duration(200)      
                   .style("opacity", .9);  
-              div.html(d.parent.name + " - " + d.name)  
+              if (typeof d.parent !== 'undefined') {
+        
+                FB.api('/' + d.id, function(page) { 
+                  console.log(page);
+
+                });
+
+                div.html(d.parent.name + " - " + d.name + "<br>" + 
+                  "<iframe id=\"frame\" src=\"http://www.bing.com/search?q=" + d.name + "\">")
                   .style("left", (d3.event.pageX) + "px")     
                   .style("top", (d3.event.pageY - 28) + "px");  
+              }
                    
             })                  
             .on("mouseout", function(d) { 
