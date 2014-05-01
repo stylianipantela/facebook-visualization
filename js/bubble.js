@@ -386,7 +386,7 @@ function generalBubbles() {
 
       FB.api("me/friends",{
       fields:'id',
-      limit:200
+      // limit:200
     },function(friends){
 
       // add number of mutual friends
