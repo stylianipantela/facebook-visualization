@@ -8,6 +8,7 @@ Stella Pantela, Nelson Yanes, Paul Harris.
 http://spant.github.io/facebook-visualization/
 
 ## Video
+https://www.youtube.com/watch?v=8Y2l6omL7ZA&feature=youtu.be
 
 ## Process Book
 http://goo.gl/BCjpCi

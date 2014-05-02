@@ -505,12 +505,8 @@ function generalBubbles() {
             .attr("font-size", "12px")
             .on("click", function(d) { 
               clearAndUpdate(d.id);
-
             });
-
       }
-
-      
     });
   });
 
